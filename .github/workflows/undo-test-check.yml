@@ -18,7 +18,8 @@ jobs:
       - name: Verify undo test is registered in Meson
         run: grep -q "'undo'" app/tests/meson.build
 
-      - name: Verify undo and redo test names exist
+      - name: Verify functional undo and redo test names exist
         run: |
-          grep -q "undo-null-image" app/tests/test-undo.c
-          grep -q "redo-null-image" app/tests/test-undo.c
+          grep -q "test_add_layer_undo_redo" app/tests/test-undo.c
+          grep -q "test_multiple_layer_undo_redo" app/tests/test-undo.c
+          grep -q "test_redo_cleared_after_new_action" app/tests/test-undo.c
