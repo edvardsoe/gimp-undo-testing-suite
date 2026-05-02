@@ -1,0 +1,24 @@
+name: Undo Test Integration Check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  verify-undo-test-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify undo test file exists
+        run: test -f app/tests/test-undo.c
+
+      - name: Verify undo test is registered in Meson
+        run: grep -q "'undo'" app/tests/meson.build
+
+      - name: Verify undo and redo test names exist
+        run: |
+          grep -q "undo-null-image" app/tests/test-undo.c
+          grep -q "redo-null-image" app/tests/test-undo.c
