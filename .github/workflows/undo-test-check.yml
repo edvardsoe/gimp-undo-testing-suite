@@ -20,6 +20,11 @@ jobs:
 
       - name: Verify functional undo and redo test names exist
         run: |
+          grep -q "undo-null-image" app/tests/test-undo.c
+          grep -q "redo-null-image" app/tests/test-undo.c
           grep -q "test_add_layer_undo_redo" app/tests/test-undo.c
           grep -q "test_multiple_layer_undo_redo" app/tests/test-undo.c
           grep -q "test_redo_cleared_after_new_action" app/tests/test-undo.c
+
+      - name: Print integration success message
+        run: echo "Undo/redo test integration checks passed."   
