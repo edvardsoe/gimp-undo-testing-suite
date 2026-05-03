@@ -1,19 +1,17 @@
-/* GIMP - The GNU Image Manipulation Program
- *
- * Functional undo/redo tests.
- */
+
+
+//REDO/UNDO TESTS
 
 #include "config.h"
-
 #include <gegl.h>
 #include <gtk/gtk.h>
-
+#include "widgets/widgets-types.h"
+#include "widgets/gimpuimanager.h"
 #include "core/gimp.h"
 #include "core/gimpimage.h"
 #include "core/gimpimage-undo.h"
 #include "core/gimplayer.h"
 #include "core/gimplayer-new.h"
-
 #include "tests.h"
 #include "gimp-app-test-utils.h"
 
@@ -69,7 +67,7 @@ add_test_layer (GimpImage   *image,
 
   result = gimp_image_add_layer (image,
                                  layer,
-                                 GIMP_IMAGE_ACTIVE_PARENT,
+                                 NULL,
                                  0,
                                  push_undo);
 
@@ -146,7 +144,7 @@ test_redo_cleared_after_new_action (GimpUndoTestFixture *fixture,
 
   gimp_image_redo (image);
 
-  /* Redo should do nothing because a new action cleared redo history. */
+  //redo should do nothing because a new action cleared redo history
   g_assert_cmpint (gimp_image_get_n_layers (image), ==, 1);
 }
 
@@ -172,6 +170,9 @@ main (int    argc,
   gimp_test_utils_set_gimp3_directory ("GIMP_TESTING_ABS_TOP_SRCDIR",
                                        "app/tests/gimpdir");
 
+  gimp_test_utils_set_gimp3_directory ("GIMP_TESTING_ABS_TOP_BUILDDIR",
+                                       "app/tests/gimpdir-output");
+
   gimp = gimp_init_for_testing ();
 
   ADD_UNDO_TEST (test_add_layer_undo_redo);
@@ -179,9 +180,6 @@ main (int    argc,
   ADD_UNDO_TEST (test_redo_cleared_after_new_action);
 
   result = g_test_run ();
-
-  gimp_test_utils_set_gimp3_directory ("GIMP_TESTING_ABS_TOP_BUILDDIR",
-                                       "app/tests/gimpdir-output");
 
   gimp_exit (gimp, TRUE);
 
